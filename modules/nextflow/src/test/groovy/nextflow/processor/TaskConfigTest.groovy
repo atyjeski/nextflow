@@ -276,13 +276,14 @@ class TaskConfigTest extends Specification {
     }
 
     @Unroll
-    def testGetCpuCores() {
+    def testGetCpus() {
         when:
         def config = new TaskConfig().setContext(ten: 10)
         config.cpus = value
 
         then:
-        config.getCpuCores() == expected
+        config.cpus == expected
+        config.getCpus() == expected
         config.hasCpus() == defined
 
         where:
@@ -298,13 +299,13 @@ class TaskConfigTest extends Specification {
     }
 
     @Unroll
-    def testGetCpus() {
+    def testGetCpuDecimal() {
         when:
         def config = new TaskConfig().setContext(ten: 10)
         config.cpus = value
 
         then:
-        config.getCpus() == expected
+        config.getCpuUnits().toDecimal() == expected
         config.hasCpus() == defined
 
         where:
@@ -561,20 +562,20 @@ class TaskConfigTest extends Specification {
         int count = 0
         config.cpus = { ++count }
         then:
-        config.getCpuCores() == 1
-        config.getCpuCores() == 1
+        config.getCpus() == 1
+        config.getCpus() == 1
 
         when:
         config = config.clone()
         then:
-        config.getCpuCores() == 2
-        config.getCpuCores() == 2
+        config.getCpus() == 2
+        config.getCpus() == 2
 
         when:
         config = config.clone()
         then:
-        config.getCpuCores() == 3
-        config.getCpuCores() == 3
+        config.getCpus() == 3
+        config.getCpus() == 3
     }
 
     def 'should configure pod options'()  {
